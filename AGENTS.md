@@ -12,6 +12,7 @@ pnpm build
 ## Layout
 - `src/components/`: `LpIcon.vue` (runtime component, exported from `src/entries/runtime.ts`) and `icon.ts` (its `TComponent`).
 - `src/inputs/`: `IconInput.vue`, registered as `icon/icon`, and `iconType()`, re-exported from `src/index.ts` for other plugins.
+- `src/build/bundle.ts`: at build, collects every `prefix:name` string in the app, fetches the icon data from the Iconify API and injects `addIconCollection(...)` calls into the generated `main.ts`.
 - `src/internals.ts`: libraries shown in the picker, edited by `src/settings/LLibrariesSettings.vue`.
 
 ## Rules

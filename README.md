@@ -6,6 +6,7 @@
 - **Icon/Icon** component: inline SVG, sized by `font-size` and colored by `color` like text. Optional `title` for an accessible label.
 - **Icon picker** (`icon/icon` input): searches the Iconify API, filterable by library.
 - **Libraries** settings tab: choose which of the Iconify sets the picker shows.
+- **Build-time bundling**: icon names found anywhere in the project are fetched once at build and embedded in the generated app, so it renders them without calling the Iconify API. Names computed at runtime still load from the API.
 
 ## Use the picker in another plugin
 ```ts
@@ -40,6 +41,7 @@ src/
   components/                  LpIcon.vue + its TComponent description
   inputs/                      IconInput.vue + iconType()
   settings/                    Libraries settings tab
+  build/                       build-time icon bundling (AppImport + AppBody injections)
   entries/runtime.ts           <package>/runtime, imported by generated apps
 ```
 

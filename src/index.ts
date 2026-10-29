@@ -2,6 +2,7 @@ import { faBookOpen } from "@fortawesome/free-solid-svg-icons";
 import { makePlugin } from "@luna-park/plugin";
 import { shallowRef } from "vue";
 
+import { getBundleInjections } from "@/build/bundle.ts";
 import { icon as iconComponent } from "@/components/icon.ts";
 import { inputs } from "@/inputs/index.ts";
 import { internals } from "@/internals.ts";
@@ -25,6 +26,7 @@ export default makePlugin({
         inputs
     },
     build: {
-        frontImports: [{ name: PACKAGE_NAME, version: PACKAGE_VERSION }]
+        frontImports: [{ name: PACKAGE_NAME, version: PACKAGE_VERSION }],
+        injections: getBundleInjections
     }
 });
