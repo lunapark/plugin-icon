@@ -1,9 +1,5 @@
 <template>
-    <div class="settings">
-        <h2>Libraries</h2>
-        <span class="description">
-            Icon sets shown in the icon picker. Icons already placed keep working when their set is removed.
-        </span>
+    <LCard class="libraries">
         <div class="toolbar">
             <LInput
                 v-model="query"
@@ -11,6 +7,7 @@
                 placeholder="Search libraries..."
                 small
             />
+            <span class="count">{{ selectedCount }} selected</span>
             <LButton
                 small
                 @click="reset"
@@ -31,19 +28,22 @@
                 class="row"
                 @click="toggle(collection)"
             >
-                <LCheckbox
+                <div class="label">
+                    <span class="name">{{ collection.name }}</span>
+                    <span class="meta">{{ collection.prefix }} · {{ collection.total }} icons</span>
+                </div>
+                <LSwitch
+                    class="switch"
                     :model-value="collection.prefix in internals.libraries"
                     small
                 />
-                <span class="name">{{ collection.name }}</span>
-                <span class="meta">{{ collection.prefix }} · {{ collection.total }}</span>
             </div>
         </div>
-    </div>
+    </LCard>
 </template>
 
 <script setup lang="ts">
-import { LButton, LCheckbox, LInput } from "@luna-park/design";
+import { LButton, LCard, LInput, LSwitch } from "@luna-park/design";
 import { computed, onMounted, ref } from "vue";
 
 import { defaultLibraries, internals } from "@/internals.ts";
@@ -57,6 +57,8 @@ type TCollection = {
 const query = ref("");
 const collections = ref<Array<TCollection>>([]);
 const error = ref(false);
+
+const selectedCount = computed(() => Object.keys(internals.libraries).length);
 
 const filteredCollections = computed(() => {
     const text = query.value.trim().toLowerCase();
@@ -91,72 +93,78 @@ function reset() {
 </script>
 
 <style scoped>
-.settings {
-    display: flex;
-    flex-direction: column;
-    gap: var(--length-xs);
-    min-height: 0;
-    padding: var(--length-s);
-
-    h2 {
-        margin: 0;
-        font-size: var(--font-size-xs);
-        font-weight: 600;
-        text-transform: uppercase;
-        color: var(--color-content-liter);
-    }
-
-    .description {
-        font-size: var(--font-size-s);
-        color: var(--color-content-litest);
-    }
-
+.libraries {
     .toolbar {
         display: flex;
+        align-items: center;
         gap: var(--length-xs);
+        padding: var(--length-xs) var(--length-s);
+        border-bottom: 1px solid var(--color-background-2);
 
         .query {
             flex: 1 1 auto;
+        }
+
+        .count {
+            font-size: var(--font-size-xs);
+            color: var(--color-content-liter);
+            white-space: nowrap;
         }
     }
 
     .list {
         display: flex;
         flex-direction: column;
-        max-height: 360px;
+        max-height: 420px;
         overflow: auto;
     }
 
     .row {
         display: flex;
         align-items: center;
-        gap: var(--length-xs);
-        padding: var(--length-xxs) var(--length-xs);
-        border-radius: var(--length-radius-m);
+        gap: var(--length-m);
+        padding: var(--length-xs) var(--length-s);
         cursor: pointer;
 
+        & + .row {
+            border-top: 1px solid var(--color-background-2);
+        }
+
         &:hover {
-            background-color: var(--color-background-lite);
+            background: var(--color-background-1);
+        }
+
+        .label {
+            display: flex;
+            flex: 1 1 auto;
+            flex-direction: column;
+            gap: var(--length-xxxs);
+            min-width: 0;
         }
 
         .name {
-            flex: 1 1 auto;
             overflow: hidden;
+            font-size: var(--font-size-s);
+            color: var(--color-content);
             text-overflow: ellipsis;
             white-space: nowrap;
         }
 
         .meta {
-            font-size: var(--font-size-s);
-            color: var(--color-content-litest);
+            font-size: var(--font-size-xs);
+            color: var(--color-content-liter);
+        }
+
+        .switch {
+            pointer-events: none;
         }
     }
 
     .empty {
-        padding: var(--length-xs);
+        padding: var(--length-s);
         text-align: center;
         font-size: var(--font-size-s);
-        color: var(--color-content-litest);
+        color: var(--color-content-liter);
     }
 }
 </style>

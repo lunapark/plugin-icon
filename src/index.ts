@@ -1,6 +1,5 @@
 import { faBookOpen } from "@fortawesome/free-solid-svg-icons";
 import { makePlugin } from "@luna-park/plugin";
-import { shallowRef } from "vue";
 
 import { getBundleInjections } from "@/build/bundle.ts";
 import { icon as iconComponent } from "@/components/icon.ts";
@@ -20,7 +19,6 @@ export default makePlugin({
     icon,
     llm,
     internals,
-    settings: [{ component: shallowRef(LLibrariesSettings), icon: faBookOpen, label: "Libraries" }],
     editor: {
         components: [iconComponent],
         inputs
@@ -28,5 +26,16 @@ export default makePlugin({
     build: {
         frontImports: [{ name: PACKAGE_NAME, version: PACKAGE_VERSION }],
         injections: getBundleInjections
+    },
+    workspace: {
+        sections: [
+            {
+                id: "libraries",
+                component: LLibrariesSettings,
+                description: "Icon sets shown in the icon picker. Icons already placed keep working when their set is removed.",
+                icon: faBookOpen,
+                title: "Libraries"
+            }
+        ]
     }
 });

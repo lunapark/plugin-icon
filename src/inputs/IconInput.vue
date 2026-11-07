@@ -78,8 +78,8 @@ const value = defineModel<string>();
 const ALL = "all";
 
 const libraries = computed(() => [
-    { id: ALL, label: "All libraries" },
-    ...Object.entries(internals.libraries).map(([id, label]) => ({ id, label }))
+    { label: "All libraries", value: ALL },
+    ...Object.entries(internals.libraries).map(([id, label]) => ({ label, value: id }))
 ]);
 
 const query = ref("");
